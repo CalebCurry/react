@@ -30,7 +30,15 @@ function EditEmployee(props) {
                     <Modal.Title>Update Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form id="editmodal" className="w-full max-w-sm">
+                    <form
+                        onSubmit={(e) => {
+                            handleClose();
+                            e.preventDefault();
+                            props.updateEmployee(props.id, name, role);
+                        }}
+                        id="editmodal"
+                        className="w-full max-w-sm"
+                    >
                         <div className="md:flex md:items-center mb-6">
                             <div className="md:w-1/3">
                                 <label
