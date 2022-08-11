@@ -11,15 +11,15 @@ import Customers from './pages/Customers';
 
 function App() {
     return (
-        <Header>
-            <BrowserRouter>
+        <BrowserRouter>
+            <Header>
                 <Routes>
                     <Route path="/employees" element={<Employees />} />
 
                     <Route path="/customers" element={<Customers />} />
                 </Routes>
-            </BrowserRouter>
-        </Header>
+            </Header>
+        </BrowserRouter>
     );
 }
 
