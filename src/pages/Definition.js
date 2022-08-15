@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import DefinitionSearch from '../components/DefinitionSearch';
 import NotFound from '../components/NotFound';
 
 export default function Definition() {
@@ -11,8 +12,8 @@ export default function Definition() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const url = 'https://dlfkgjdflkgjdflkgjdflkgjdflkgjdflkgjdflkg.com';
-        //const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + search;
+        //const url = 'https://dlfkgjdflkgjdflkgjdflkgjdflkgjdflkgjdflkg.com';
+        const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + search;
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
@@ -69,6 +70,8 @@ export default function Definition() {
                             </p>
                         );
                     })}
+                    <p>Search again:</p>
+                    <DefinitionSearch />
                 </>
             ) : null}
         </>
