@@ -16,9 +16,6 @@ export default function Definition() {
         const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + search;
         fetch(url)
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Something went wrong.');
-                }
                 console.log(response.status);
                 if (response.status === 404) {
                     setNotFound(true);
@@ -28,6 +25,10 @@ export default function Definition() {
                     //setServerError(true);
                 }
 
+                if (!response.ok) {
+                    throw new Error('Something went wrong.');
+                }
+
                 return response.json();
             })
             .then((data) => {
@@ -35,7 +36,6 @@ export default function Definition() {
             })
             .catch((e) => {
                 setError(true);
-                console.log(e);
             });
     }, []);
 
