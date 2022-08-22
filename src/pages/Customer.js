@@ -10,6 +10,7 @@ export default function Customer() {
     const [tempCustomer, setTempCustomer] = useState();
     const [notFound, setNotFound] = useState();
     const [changed, setChanged] = useState(false);
+    const [error, setError] = useState();
 
     useEffect(() => {
         if (!customer) return;
@@ -31,11 +32,19 @@ export default function Customer() {
                     setNotFound(true);
                 }
 
+                if (!response.ok) {
+                    throw new Error('Something went wrong, try again later');
+                }
+
                 return response.json();
             })
             .then((data) => {
                 setCustomer(data.customer);
                 setTempCustomer(data.customer);
+                setError(undefined);
+            })
+            .catch((e) => {
+                setError(e.message);
             });
     }, []);
 
@@ -49,14 +58,17 @@ export default function Customer() {
             body: JSON.stringify(tempCustomer),
         })
             .then((response) => {
+                if (!response.ok) throw new Error('something went wrong');
                 return response.json();
             })
             .then((data) => {
                 setCustomer(data.customer);
                 setChanged(false);
-                console.log(data);
+                setError(undefined);
             })
-            .catch();
+            .catch((e) => {
+                setError(e.message);
+            });
     }
 
     return (
@@ -105,30 +117,33 @@ export default function Customer() {
                             </button>
                         </>
                     ) : null}
+
+                    <button
+                        onClick={(e) => {
+                            const url = baseUrl + 'api/customers/' + id;
+                            fetch(url, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            })
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error('Something went wrong');
+                                    }
+                                    navigate('/customers');
+                                })
+                                .catch((e) => {
+                                    setError(e.message);
+                                });
+                        }}
+                    >
+                        Delete
+                    </button>
                 </div>
             ) : null}
-            <button
-                onClick={(e) => {
-                    const url = baseUrl + 'api/customers/' + id;
-                    fetch(url, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error('Something went wrong');
-                            }
-                            navigate('/customers');
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                }}
-            >
-                Delete
-            </button>
+
+            {error ? <p>{error}</p> : null}
             <br />
             <Link to="/customers">Go back</Link>
         </>
