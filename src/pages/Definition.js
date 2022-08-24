@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import DefinitionSearch from '../components/DefinitionSearch';
 import NotFound from '../components/NotFound';
@@ -9,6 +9,8 @@ export default function Definition() {
     const [notFound, setNotFound] = useState(false);
     const [error, setError] = useState(false);
     let { search } = useParams();
+
+    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,7 +22,6 @@ export default function Definition() {
                 if (response.status === 404) {
                     setNotFound(true);
                 } else if (response.status === 401) {
-                    navigate('/login');
                 } else if (response.status === 500) {
                     //setServerError(true);
                 }
