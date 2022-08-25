@@ -28,7 +28,11 @@ export default function Login() {
             .then((data) => {
                 localStorage.setItem('access', data.access);
                 localStorage.setItem('refresh', data.refresh);
-                navigate(location.state.previousUrl);
+                navigate(
+                    location?.state?.previousUrl
+                        ? location.state.previousUrl
+                        : '/customers'
+                );
             });
     }
 
