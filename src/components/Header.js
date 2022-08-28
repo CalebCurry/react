@@ -18,10 +18,6 @@ function classNames(...classes) {
 export default function Header(props) {
     const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
-    useEffect(() => {
-        console.log(loggedIn);
-    });
-
     return (
         <>
             <Disclosure as="nav" className="bg-gray-800">
