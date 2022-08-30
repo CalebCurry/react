@@ -1,5 +1,5 @@
 import './index.css';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import Header from './components/Header';
 import Employees from './pages/Employees';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -9,11 +9,40 @@ import Definition from './pages/Definition';
 import NotFound from './components/NotFound';
 import Customer from './pages/Customer';
 import Login from './pages/Login';
+import { baseUrl } from './shared';
 
 export const LoginContext = createContext();
 
 function App() {
-    //long term goal --> use Refresh token and if it works, stay logged in, otherwise, send to login page
+    useEffect(() => {
+        function refreshTokens() {
+            if (localStorage.refresh) {
+                const url = baseUrl + 'api/token/refresh/';
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        refresh: localStorage.refresh,
+                    }),
+                })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        localStorage.access = data.access;
+                        localStorage.refresh = data.refresh;
+                        setLoggedIn(true);
+                    });
+            }
+        }
+
+        const minute = 1000 * 60;
+        refreshTokens();
+        setInterval(refreshTokens, 1000);
+    }, []);
+
     const [loggedIn, setLoggedIn] = useState(
         localStorage.access ? true : false
     );
