@@ -41,7 +41,7 @@ function App() {
 
         const minute = 1000 * 60;
         refreshTokens();
-        setInterval(refreshTokens, 1000);
+        setInterval(refreshTokens, minute * 3);
     }, []);
 
     const [loggedIn, setLoggedIn] = useState(
