@@ -4,7 +4,7 @@ export default function useFetch(url) {
     const [data, setData] = useState();
     const [errorStatus, setErrorStatus] = useState();
     useEffect(() => {
-        fetch('')
+        fetch(url)
             .then((response) => {
                 if (!response.ok) {
                     throw response.status;
