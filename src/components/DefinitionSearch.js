@@ -8,7 +8,8 @@ export default function DefinitionSearch() {
     return (
         <form
             className="flex space-between space-x-2 max-w-[300px]"
-            onSubmit={() => {
+            onSubmit={(e) => {
+                e.preventDefault();
                 navigate('/dictionary/' + word);
             }}
         >
