@@ -21,7 +21,7 @@ export default function Definition() {
 
     useEffect(() => {
         request();
-    });
+    }, []);
 
     if (errorStatus === 404) {
         return (
